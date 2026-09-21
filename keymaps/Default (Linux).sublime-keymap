@@ -1,0 +1,23 @@
+[
+    {
+        "keys": ["f9"],
+        "command": "build",
+        "args": {"build_system": "Packages/User/CPH C++.sublime-build"}
+    },
+    {
+        "keys": ["f10"],
+        "command": "build",
+        "args": {
+            "build_system": "Packages/User/CPH C++.sublime-build",
+            "variant": "Run"
+        }
+    },
+    {
+        "keys": ["f12"],
+        "command": "build",
+        "args": {
+            "build_system": "Packages/User/CPH C++.sublime-build",
+            "variant": "Test Samples"
+        }
+    }
+]

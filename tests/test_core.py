@@ -1,0 +1,60 @@
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+from CompetitiveHelper.competitive_helper_core import import_problem, slugify
+
+
+class ImportProblemTests(unittest.TestCase):
+    def test_imports_all_samples_and_copies_template(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            template = root / "template.cpp"
+            template.write_text("// personal template\n", encoding="utf-8")
+            data = {
+                "name": "A+B",
+                "group": "Codeforces - Sample",
+                "url": "https://example.test/problem",
+                "timeLimit": 1000,
+                "memoryLimit": 256,
+                "tests": [
+                    {"input": "1 2\n", "output": "3\n"},
+                    {"input": "10 20\n", "output": "30\n"},
+                ],
+            }
+
+            result = import_problem(data, root, template)
+
+            self.assertEqual(result["test_count"], 2)
+            self.assertEqual(result["source"].read_text(encoding="utf-8"), "// personal template\n")
+            sample_dir = root / "cph" / "A+B"
+            self.assertEqual((sample_dir / "A+B_1.in").read_text(encoding="utf-8"), "1 2\n")
+            self.assertEqual((sample_dir / "A+B_1.ans").read_text(encoding="utf-8"), "3\n")
+            self.assertEqual((sample_dir / "A+B_2.in").read_text(encoding="utf-8"), "10 20\n")
+            self.assertEqual((sample_dir / "A+B_2.ans").read_text(encoding="utf-8"), "30\n")
+            self.assertEqual((sample_dir / "input.txt").read_text(encoding="utf-8"), "1 2\n")
+            self.assertEqual((sample_dir / "expected.txt").read_text(encoding="utf-8"), "3\n")
+            saved = json.loads((sample_dir / "problem.json").read_text(encoding="utf-8"))
+            self.assertEqual(saved["url"], data["url"])
+            self.assertEqual(len(saved["tests"]), 2)
+
+    def test_does_not_overwrite_existing_solution(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            template = root / "template.cpp"
+            template.write_text("new template\n", encoding="utf-8")
+            source = root / "Existing.cpp"
+            source.write_text("my code\n", encoding="utf-8")
+            data = {"name": "Existing", "tests": []}
+
+            import_problem(data, root, template)
+
+            self.assertEqual(source.read_text(encoding="utf-8"), "my code\n")
+
+    def test_slugify_removes_path_separators(self):
+        self.assertEqual(slugify("A/B: C\\D"), "A_B_ C_D")
+
+
+if __name__ == "__main__":
+    unittest.main()

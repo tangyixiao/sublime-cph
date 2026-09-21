@@ -1,0 +1,16 @@
+{
+    "cmd": ["python3", "${packages}/CompetitiveHelper/cph_runner.py", "compile", "${file}"],
+    "working_dir": "${file_path}",
+    "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+    "selector": "source.c++, source.cpp",
+    "variants": [
+        {
+            "name": "Run",
+            "cmd": ["python3", "${packages}/CompetitiveHelper/cph_runner.py", "run", "${file}"]
+        },
+        {
+            "name": "Test Samples",
+            "cmd": ["python3", "${packages}/CompetitiveHelper/cph_runner.py", "test", "${file}"]
+        }
+    ]
+}

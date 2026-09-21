@@ -1,0 +1,6 @@
+{
+    "port": 10045,
+    "code_root": "~/Code",
+    "template_path": "~/Code/template.cpp",
+    "open_source": true
+}
