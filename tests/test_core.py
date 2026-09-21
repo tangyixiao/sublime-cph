@@ -7,6 +7,63 @@ from CompetitiveHelper.competitive_helper_core import import_problem, slugify
 
 
 class ImportProblemTests(unittest.TestCase):
+    def test_uses_template_js_filename_rules_for_codeforces(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            template = root / "template.cpp"
+            template.write_text("// personal template\n", encoding="utf-8")
+            data = {
+                "name": "A. Two Sum",
+                "url": "https://codeforces.com/contest/123/problem/A",
+                "tests": [],
+            }
+
+            result = import_problem(data, root, template)
+
+            self.assertEqual(result["name"], "CF123A Two Sum")
+            self.assertEqual(result["source"], str(root / "CF123A Two Sum.cpp"))
+            self.assertEqual(
+                result["sample_dir"], str(root / "cph" / "CF123A Two Sum")
+            )
+
+    def test_uses_template_js_provider_ids(self):
+        cases = [
+            (
+                "P1001 A+B",
+                "https://www.luogu.com.cn/problem/P1001",
+                "P1001 A+B",
+            ),
+            (
+                "A. Problem",
+                "https://atcoder.jp/contests/abc123/tasks/abc123_a",
+                "ABC123A A. Problem",
+            ),
+            (
+                "Problem",
+                "http://poj.org/problem?id=1000",
+                "POJ1000 Problem",
+            ),
+            (
+                "Problem",
+                "https://onlinejudge.org/problem/100",
+                "UVA100 Problem",
+            ),
+        ]
+
+        for name, url, expected in cases:
+            with self.subTest(url=url):
+                with tempfile.TemporaryDirectory() as temp:
+                    root = Path(temp)
+                    template = root / "template.cpp"
+                    template.write_text("// personal template\n", encoding="utf-8")
+                    result = import_problem(
+                        {"name": name, "url": url, "tests": []}, root, template
+                    )
+                    self.assertEqual(result["name"], expected)
+                    self.assertEqual(
+                        result["source"], str(root / (expected + ".cpp"))
+                    )
+
     def test_imports_all_samples_and_copies_template(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

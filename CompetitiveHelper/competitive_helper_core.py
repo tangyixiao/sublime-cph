@@ -2,10 +2,95 @@ import json
 import os
 import re
 import shutil
+from urllib.parse import urlparse
 
 
 _UNSAFE_NAME = re.compile(r"[\\/:\x00-\x1f]")
 _FALLBACK_TEMPLATE = "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    return 0;\n}\n"
+_TEMPLATE_JS_UNSAFE_NAME = re.compile(r'[<>:"/\\|?*]')
+
+
+def _is_host(hostname, expected):
+    return hostname == expected or hostname.endswith("." + expected)
+
+
+def _problem_id(name, url):
+    """Port the problem-id rules from the user's template.js."""
+    full_id = ""
+    if url:
+        try:
+            parsed = urlparse(str(url))
+            hostname = parsed.hostname or ""
+
+            if _is_host(hostname, "codeforces.com"):
+                patterns = (
+                    r"/contest/(\d+)/problem/(\w+)",
+                    r"/problemset/problem/(\d+)/(\w+)",
+                    r"/gym/(\d+)/problem/(\w+)",
+                )
+                for pattern in patterns:
+                    match = re.search(pattern, str(url))
+                    if match:
+                        full_id = "CF{}{}".format(match.group(1), match.group(2))
+                        break
+
+            if not full_id and _is_host(hostname, "luogu.com.cn"):
+                match = re.search(r"problem/(\w+)", str(url))
+                if match:
+                    full_id = match.group(1)
+
+            if not full_id and _is_host(hostname, "atcoder.jp"):
+                match = re.search(r"tasks/(\w+)_(\w+)", str(url))
+                if match:
+                    full_id = "{}{}".format(
+                        match.group(1).upper(), match.group(2).upper()
+                    )
+
+            if not full_id and _is_host(hostname, "poj.org"):
+                match = re.search(r"[?&]id=(\d+)", str(url))
+                if match:
+                    full_id = "POJ{}".format(match.group(1))
+
+            if not full_id and (
+                _is_host(hostname, "uva.onlinejudge.org")
+                or _is_host(hostname, "onlinejudge.org")
+            ):
+                match = re.search(r"/problem/(\d+)", str(url))
+                if match:
+                    full_id = "UVA{}".format(match.group(1))
+        except (TypeError, ValueError):
+            pass
+
+    if not full_id:
+        number = re.search(r"\d+", name)
+        if number:
+            full_id = number.group(0)
+    return full_id
+
+
+def _template_js_basename(data):
+    """Return the .cpp basename produced by the user's template.js rules."""
+    name = str(data.get("name", "problem") or "problem")
+    full_id = _problem_id(name, data.get("url"))
+    clean_name = _TEMPLATE_JS_UNSAFE_NAME.sub("_", name)
+
+    if full_id.startswith("CF") and len(full_id) > 2:
+        last_char = full_id[-1]
+        prefix_match = re.match(r"^([A-Za-z])\.\s*", clean_name)
+        if prefix_match and prefix_match.group(1).upper() == last_char.upper():
+            clean_name = clean_name[len(prefix_match.group(0)) :]
+
+    if full_id and clean_name.startswith(full_id):
+        rest = clean_name[len(full_id) :]
+        rest = re.sub(r"^[\s.\-_]+", "", rest)
+        if rest:
+            clean_name = rest
+
+    if full_id:
+        basename = "{} {}".format(full_id, clean_name) if clean_name else full_id
+    else:
+        basename = clean_name
+    return slugify(basename)
 
 
 def slugify(name):
@@ -27,7 +112,7 @@ def import_problem(data, code_root, template_path):
     """Persist a Competitive Companion payload and return created paths."""
     root = os.path.abspath(os.path.expanduser(str(code_root)))
     template = os.path.abspath(os.path.expanduser(str(template_path)))
-    safe_name = slugify(data.get("name", "problem"))
+    safe_name = _template_js_basename(data)
     sample_dir = os.path.join(root, "cph", safe_name)
     source = os.path.join(root, safe_name + ".cpp")
     _ensure_dir(sample_dir)
