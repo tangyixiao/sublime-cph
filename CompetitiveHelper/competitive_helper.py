@@ -19,6 +19,28 @@ def _settings():
     return sublime.load_settings("CompetitiveHelper.sublime-settings")
 
 
+def _start_listener(show_error=True):
+    global _server
+    if _server is not None:
+        print("CompetitiveHelper: listener already running")
+        return True
+    port = int(_settings().get("port", 10045))
+    try:
+        _server = _ReusableHTTPServer(("127.0.0.1", port), _RequestHandler)
+    except OSError as error:
+        message = "CompetitiveHelper cannot listen on port {}: {}".format(port, error)
+        if show_error:
+            sublime.error_message(message)
+        else:
+            print(message)
+        return False
+    thread = threading.Thread(target=_server.serve_forever)
+    thread.daemon = True
+    thread.start()
+    print("CompetitiveHelper: listening on 127.0.0.1:{}".format(port))
+    return True
+
+
 def _json_response(handler, status, payload):
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     handler.send_response(status)
@@ -65,20 +87,7 @@ class _RequestHandler(BaseHTTPRequestHandler):
 
 class StartCphListenerCommand(sublime_plugin.ApplicationCommand):
     def run(self):
-        global _server
-        if _server is not None:
-            print("CompetitiveHelper: listener already running")
-            return
-        port = int(_settings().get("port", 10045))
-        try:
-            _server = _ReusableHTTPServer(("127.0.0.1", port), _RequestHandler)
-        except OSError as error:
-            sublime.error_message("CompetitiveHelper cannot listen on port {}: {}".format(port, error))
-            return
-        thread = threading.Thread(target=_server.serve_forever)
-        thread.daemon = True
-        thread.start()
-        print("CompetitiveHelper: listening on 127.0.0.1:{}".format(port))
+        _start_listener(show_error=True)
 
 
 class StopCphListenerCommand(sublime_plugin.ApplicationCommand):
@@ -90,3 +99,8 @@ class StopCphListenerCommand(sublime_plugin.ApplicationCommand):
         _server.server_close()
         _server = None
         print("CompetitiveHelper: listener stopped")
+
+
+def plugin_loaded():
+    if _settings().get("auto_start", True):
+        sublime.set_timeout(lambda: _start_listener(show_error=False), 0)

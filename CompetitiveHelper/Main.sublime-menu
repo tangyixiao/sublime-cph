@@ -1,0 +1,15 @@
+[
+    {
+        "caption": "Competitive Helper",
+        "children": [
+            {
+                "caption": "Start Listener",
+                "command": "start_cph_listener"
+            },
+            {
+                "caption": "Stop Listener",
+                "command": "stop_cph_listener"
+            }
+        ]
+    }
+]

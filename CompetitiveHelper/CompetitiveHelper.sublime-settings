@@ -1,5 +1,6 @@
 {
     "port": 10045,
+    "auto_start": true,
     "code_root": "~/Code",
     "template_path": "~/Code/template.cpp",
     "open_source": true

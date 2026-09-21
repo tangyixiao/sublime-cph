@@ -17,7 +17,7 @@
 ./scripts/install.sh
 ```
 
-重启 Sublime Text 后，在命令面板执行 `Competitive Helper: Start Listener`。
+重启 Sublime Text 后插件会自动启动监听器；也可以从顶部菜单 `Competitive Helper > Start Listener` 手动启动。
 然后将 Competitive Companion 的 Custom Port 设置为 `10045`，在题目页面点击扩展按钮即可。
 
 ## 测试
