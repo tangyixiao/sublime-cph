@@ -11,6 +11,10 @@ import competitive_helper_core
 _server = None
 
 
+class _ReusableHTTPServer(HTTPServer):
+    allow_reuse_address = True
+
+
 def _settings():
     return sublime.load_settings("CompetitiveHelper.sublime-settings")
 
@@ -67,7 +71,7 @@ class StartCphListenerCommand(sublime_plugin.ApplicationCommand):
             return
         port = int(_settings().get("port", 10045))
         try:
-            _server = HTTPServer(("127.0.0.1", port), _RequestHandler)
+            _server = _ReusableHTTPServer(("127.0.0.1", port), _RequestHandler)
         except OSError as error:
             sublime.error_message("CompetitiveHelper cannot listen on port {}: {}".format(port, error))
             return
