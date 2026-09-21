@@ -6,7 +6,14 @@ import subprocess
 import sys
 import tempfile
 import time
-from pathlib import Path
+try:
+    from pathlib import Path
+except ImportError:
+    # Sublime Text 4's legacy Python 3.3 plugin host imports every .py file
+    # in a package. The runner itself executes with the system Python, where
+    # pathlib is available; keeping this import optional lets Sublime load the
+    # package without trying to execute the runner as a plugin.
+    Path = None
 
 
 DEFAULT_FLAGS = ("-std=c++20", "-Wall", "-Wextra", "-O2", "-pipe")

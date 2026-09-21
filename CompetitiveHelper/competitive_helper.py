@@ -5,7 +5,10 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import sublime
 import sublime_plugin
 
-import competitive_helper_core
+try:
+    from . import competitive_helper_core
+except (ImportError, ValueError):
+    import competitive_helper_core
 
 
 _server = None
