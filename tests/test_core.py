@@ -27,7 +27,7 @@ class ImportProblemTests(unittest.TestCase):
             result = import_problem(data, root, template)
 
             self.assertEqual(result["test_count"], 2)
-            self.assertEqual(result["source"].read_text(encoding="utf-8"), "// personal template\n")
+            self.assertEqual(Path(result["source"]).read_text(encoding="utf-8"), "// personal template\n")
             sample_dir = root / "cph" / "A+B"
             self.assertEqual((sample_dir / "A+B_1.in").read_text(encoding="utf-8"), "1 2\n")
             self.assertEqual((sample_dir / "A+B_1.ans").read_text(encoding="utf-8"), "3\n")
