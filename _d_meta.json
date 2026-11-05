@@ -1,0 +1,18 @@
+{
+  "type": "design",
+  "designSystems": [],
+  "primaryDesignSystem": null,
+  "assets": {
+    "Sublime CPH": {
+      "versions": [
+        {
+          "path": "index.html",
+          "createdAt": "2026-11-05T13:19:46.518Z",
+          "status": "needs-review"
+        }
+      ]
+    }
+  },
+  "createdAt": "2026-11-05T13:19:46.519Z",
+  "updatedAt": "2026-11-05T13:57:11.418Z"
+}
