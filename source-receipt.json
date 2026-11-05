@@ -2,10 +2,33 @@
   "repo": "tangyixiao/sublime-cph",
   "sourceBranch": "main",
   "sourceCommit": "6fe502580cbfbc0ceaa8765ccc23010ea24d1a0c",
+  "designVersion": 3,
+  "direction": {
+    "visualConcept": "石墨、烧橙与机械键盘的竞赛编辑台：F9/F10/F12 三颗大键形成首屏骨架，左边是本地编译流程，右边是文件与样例的窄轨道。比 OJ-NEXUS 更像编辑器附件，比 HarnessHub 更小而直接。事实边界：Sublime Text 4 本地辅助工具，不是在线评测平台，不承诺自动 AC。",
+    "layout": "workbench",
+    "palette": {
+      "light": {
+        "bg": "#E0D8CB",
+        "surface": "#F1E8D5",
+        "ink": "#3C3025",
+        "muted": "#6b5c49",
+        "accent": "#8e4d1e"
+      },
+      "dark": {
+        "bg": "#242019",
+        "surface": "#373025",
+        "ink": "#F3E7D2",
+        "muted": "#b9a589",
+        "accent": "#f1b16c"
+      }
+    },
+    "threeConcept": "Three.js 制作三颗烧橙键帽和横向样例托盘，按键触发后只点亮对应的文字流程片；键盘是操作示意，不代表仓库提供实体设备。",
+    "distinctiveInteraction": "按键盘 F9/F10/F12 或点击键帽展示编译、首组样例、全部样例的说明与源码入口；拦截仅限演示区域，不实际运行编译或假报通过。"
+  },
   "media": [],
   "skills": [
     "baoyu-design",
     "design-taste-frontend"
   ],
-  "design": "content-first source/product/photography; no rejected template or faux 3D"
+  "flagshipModel": null
 }
