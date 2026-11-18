@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "description": "Send a problem and all its samples from Competitive Companion to Sublime Text 4, then generate the C++ file from your own template."
+  },
+  "pages": {
+    "home": {
+      "title": "Import, compile and test in Sublime Text · {project}"
+    },
+    "features": {
+      "title": "Features · {project}",
+      "description": "Send a problem and all its samples from Competitive Companion to Sublime Text 4, then generate the C++ file from your own template."
+    },
+    "download": {
+      "title": "Get started · {project}",
+      "description": "From the project directory run ./scripts/install.sh and restart Sublime Text 4. The Competitive Helper menu can start the listener manually."
+    },
+    "community": {
+      "title": "Community · {project}",
+      "description": "Find usage guidance, follow discussions and review changes to this project."
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "download": "Get started",
+    "community": "Community"
+  },
+  "ui": {
+    "skip_link": "Skip to main content",
+    "navigation": "Main navigation",
+    "open_navigation": "Open navigation",
+    "close_navigation": "Close navigation",
+    "language": "Choose language",
+    "theme": "Choose theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "platforms": "Supported platforms",
+    "github": "GitHub",
+    "view_image": "View full illustration",
+    "feature_more": "Explore features",
+    "download": "Read the install steps",
+    "release_notes": "Source repository",
+    "documentation": "Documentation",
+    "source": "Source repository",
+    "illustration": "First steps",
+    "license": "Apache-2.0 (original code and docs)"
+  },
+  "hero": {
+    "title": [
+      "Import, compile and test in Sublime Text"
+    ],
+    "description": [
+      "Send a problem and all its samples from Competitive Companion to Sublime Text 4, then generate the C++ file from your own template."
+    ],
+    "primary_action": "Read the install steps",
+    "secondary_action": "Explore features"
+  },
+  "preview": {
+    "caption": "First steps",
+    "tabs": [
+      {
+        "label": "Get started",
+        "icon": "book"
+      }
+    ],
+    "items": [
+      {
+        "title": "Install and restart",
+        "description": "From the project directory run ./scripts/install.sh and restart Sublime Text 4. The Competitive Helper menu can start the listener manually.",
+        "icon": "book"
+      },
+      {
+        "title": "Send a problem",
+        "description": "Set Competitive Companion’s Custom Port to 10045, click its button on a problem page and run the samples with F12.",
+        "icon": "link"
+      }
+    ]
+  },
+  "features": {
+    "title": "Project features",
+    "groups": [
+      {
+        "title": "Import with your template",
+        "description": "The local listener receives problems on port 10045. Samples go under ~/Code/cph/, with template.cpp and template.js supplying source and naming rules.",
+        "detail": "",
+        "icon": "layers"
+      },
+      {
+        "title": "Run sample tests",
+        "description": "Press F9 to compile, F10 to compile and run the first sample or F12 to test all samples.",
+        "detail": "",
+        "icon": "book"
+      }
+    ]
+  },
+  "getting_started": {
+    "title": "Get started · {project}",
+    "steps": [
+      {
+        "title": "Install and restart",
+        "description": "From the project directory run ./scripts/install.sh and restart Sublime Text 4. The Competitive Helper menu can start the listener manually.",
+        "icon": "book"
+      },
+      {
+        "title": "Send a problem",
+        "description": "Set Competitive Companion’s Custom Port to 10045, click its button on a problem page and run the samples with F12.",
+        "icon": "link"
+      }
+    ]
+  },
+  "community": {
+    "title": "Community · {project}",
+    "description": "Find usage guidance, follow discussions and review changes to this project.",
+    "links": [
+      {
+        "label": "Help and feedback",
+        "description": "Browse existing reports or describe a reproducible problem.",
+        "icon": "book"
+      },
+      {
+        "label": "Source repository",
+        "description": "Find the project and its maintenance links.",
+        "icon": "link"
+      },
+      {
+        "label": "Review changes",
+        "description": "Review open pull requests or prepare a contribution.",
+        "icon": "code"
+      }
+    ]
+  },
+  "footer": {
+    "copyright": "{copyright}"
+  }
+}
