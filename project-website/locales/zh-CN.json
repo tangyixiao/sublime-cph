@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "description": "把 Competitive Companion 发送的题目和全部样例交给 Sublime Text 4，按自己的模板生成 C++ 文件。"
+  },
+  "pages": {
+    "home": {
+      "title": "在 Sublime Text 里接题、编译、跑样例 · {project}"
+    },
+    "features": {
+      "title": "项目特点 · {project}",
+      "description": "把 Competitive Companion 发送的题目和全部样例交给 Sublime Text 4，按自己的模板生成 C++ 文件。"
+    },
+    "download": {
+      "title": "开始使用 · {project}",
+      "description": "在项目目录运行 ./scripts/install.sh，重启 Sublime Text 4；必要时从 Competitive Helper 菜单启动监听。"
+    },
+    "community": {
+      "title": "参与项目 · {project}",
+      "description": "从这里找到使用说明、已有讨论和项目变更。"
+    }
+  },
+  "nav": {
+    "home": "首页",
+    "features": "项目特点",
+    "download": "开始使用",
+    "community": "参与项目"
+  },
+  "ui": {
+    "skip_link": "跳转到主要内容",
+    "navigation": "主导航",
+    "open_navigation": "打开导航",
+    "close_navigation": "关闭导航",
+    "language": "选择语言",
+    "theme": "选择主题",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统",
+    "platforms": "支持的平台",
+    "github": "GitHub",
+    "view_image": "查看完整演示图",
+    "feature_more": "查看详情",
+    "download": "查看安装步骤",
+    "release_notes": "仓库源代码",
+    "documentation": "使用文档",
+    "source": "仓库源代码",
+    "illustration": "使用路径",
+    "license": "Apache-2.0（原创代码与文档）"
+  },
+  "hero": {
+    "title": [
+      "在 Sublime Text 里接题、编译、跑样例"
+    ],
+    "description": [
+      "把 Competitive Companion 发送的题目和全部样例交给 Sublime Text 4，按自己的模板生成 C++ 文件。"
+    ],
+    "primary_action": "查看安装步骤",
+    "secondary_action": "查看详情"
+  },
+  "preview": {
+    "caption": "使用路径",
+    "tabs": [
+      {
+        "label": "开始使用",
+        "icon": "book"
+      }
+    ],
+    "items": [
+      {
+        "title": "安装并重启编辑器",
+        "description": "在项目目录运行 ./scripts/install.sh，重启 Sublime Text 4；必要时从 Competitive Helper 菜单启动监听。",
+        "icon": "book"
+      },
+      {
+        "title": "从浏览器发送题目",
+        "description": "把 Competitive Companion 的 Custom Port 设为 10045，在题目页点扩展按钮，随后用 F12 跑样例。",
+        "icon": "link"
+      }
+    ]
+  },
+  "features": {
+    "title": "项目特点",
+    "groups": [
+      {
+        "title": "收题并套用模板",
+        "description": "监听本机 10045 端口，将样例保存在 ~/Code/cph/，用 template.cpp 与 template.js 生成代码和文件名。",
+        "detail": "",
+        "icon": "layers"
+      },
+      {
+        "title": "快捷键运行样例",
+        "description": "按 F9 编译，F10 编译并运行第一组样例，F12 编译并测试全部样例。",
+        "detail": "",
+        "icon": "book"
+      }
+    ]
+  },
+  "getting_started": {
+    "title": "开始使用 · {project}",
+    "steps": [
+      {
+        "title": "安装并重启编辑器",
+        "description": "在项目目录运行 ./scripts/install.sh，重启 Sublime Text 4；必要时从 Competitive Helper 菜单启动监听。",
+        "icon": "book"
+      },
+      {
+        "title": "从浏览器发送题目",
+        "description": "把 Competitive Companion 的 Custom Port 设为 10045，在题目页点扩展按钮，随后用 F12 跑样例。",
+        "icon": "link"
+      }
+    ]
+  },
+  "community": {
+    "title": "参与 · {project}",
+    "description": "从这里找到使用说明、已有讨论和项目变更。",
+    "links": [
+      {
+        "label": "帮助与反馈",
+        "description": "查看已报告的问题，或描述复现步骤。",
+        "icon": "book"
+      },
+      {
+        "label": "仓库源代码",
+        "description": "查看原项目与维护入口。",
+        "icon": "link"
+      },
+      {
+        "label": "查看项目变更",
+        "description": "查看已有拉取请求或准备贡献。",
+        "icon": "code"
+      }
+    ]
+  },
+  "footer": {
+    "copyright": "{copyright}"
+  }
+}

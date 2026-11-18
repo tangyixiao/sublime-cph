@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "name": "sublime-cph",
+  "theme": "system",
+  "default_locale": "zh-CN",
+  "locales": [
+    {
+      "code": "zh-CN",
+      "label": "简体中文",
+      "directory": ""
+    },
+    {
+      "code": "en",
+      "label": "English",
+      "directory": "en"
+    }
+  ],
+  "release": "sublime-cph",
+  "license_label": "Apache-2.0 (original code and docs)",
+  "links": {
+    "repository": "https://github.com/tangyixiao/sublime-cph",
+    "download": "https://github.com/tangyixiao/sublime-cph/blob/main/README.md",
+    "documentation": "https://github.com/tangyixiao/sublime-cph/blob/main/README.md",
+    "release": "https://github.com/tangyixiao/sublime-cph",
+    "license": "https://github.com/tangyixiao/sublime-cph/blob/main/NOTICE",
+    "report_issue": "https://github.com/tangyixiao/sublime-cph/issues",
+    "suggest_feature": "https://github.com/tangyixiao/sublime-cph",
+    "contribute": "https://github.com/tangyixiao/sublime-cph/pulls"
+  },
+  "copyright_notice": "Website template © 2026 Tang Yixiao and contributors",
+  "platforms": [
+    {
+      "name": "sublime-cph",
+      "href": "https://tangyixiao.github.io/sublime-cph/"
+    }
+  ]
+}
