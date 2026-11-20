@@ -27,6 +27,7 @@ class PluginAutostartTests(unittest.TestCase):
         sublime.error_message = lambda message: (_ for _ in ()).throw(RuntimeError(message))
         sublime_plugin = types.ModuleType("sublime_plugin")
         sublime_plugin.ApplicationCommand = object
+        sublime_plugin.TextCommand = object
         old_sublime = sys.modules.get("sublime")
         old_sublime_plugin = sys.modules.get("sublime_plugin")
         sys.modules["sublime"] = sublime

@@ -3,5 +3,6 @@
     "auto_start": true,
     "code_root": "~/Code",
     "template_path": "~/Code/template.cpp",
-    "open_source": true
+    "open_source": true,
+    "clang_format_program": "clang-format"
 }

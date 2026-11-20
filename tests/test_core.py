@@ -1,9 +1,15 @@
 import json
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 
-from CompetitiveHelper.competitive_helper_core import import_problem, slugify
+from CompetitiveHelper.competitive_helper_core import (
+    build_head_comments,
+    format_cpp,
+    import_problem,
+    slugify,
+)
 
 
 class ImportProblemTests(unittest.TestCase):
@@ -84,7 +90,16 @@ class ImportProblemTests(unittest.TestCase):
             result = import_problem(data, root, template)
 
             self.assertEqual(result["test_count"], 2)
-            self.assertEqual(Path(result["source"]).read_text(encoding="utf-8"), "// personal template\n")
+            source = Path(result["source"]).read_text(encoding="utf-8")
+            self.assertTrue(source.startswith("//  Author: Tangyixiao\n"))
+            self.assertIn("//  Problem: A+B\n", source)
+            self.assertIn("//  Contest: Codeforces - Sample\n", source)
+            self.assertIn("//  URL: https://example.test/problem\n", source)
+            self.assertIn("//  Memory Limit: 256 MB\n", source)
+            self.assertIn("//  Time Limit: 1000 ms\n", source)
+            self.assertIn("//  Algorithm: \n//  Complexity: O()\n//  Note: \n", source)
+            self.assertNotIn("Powered by CP Editor", source)
+            self.assertTrue(source.endswith("// personal template\n"))
             sample_dir = root / "cph" / "A+B"
             self.assertEqual((sample_dir / "A+B_1.in").read_text(encoding="utf-8"), "1 2\n")
             self.assertEqual((sample_dir / "A+B_1.ans").read_text(encoding="utf-8"), "3\n")
@@ -111,6 +126,46 @@ class ImportProblemTests(unittest.TestCase):
 
     def test_slugify_removes_path_separators(self):
         self.assertEqual(slugify("A/B: C\\D"), "A_B_ C_D")
+
+    def test_build_head_comments_matches_cp_editor_fields(self):
+        data = {
+            "name": "A+B",
+            "group": "Codeforces Round",
+            "url": "https://codeforces.com/contest/1/problem/A",
+            "memoryLimit": 256,
+            "timeLimit": 2000,
+            "interactive": False,
+            "testType": "single",
+            "batch": {"id": "batch-1"},
+        }
+
+        header = build_head_comments(data, now=datetime(2026, 9, 21, 14, 30, 0))
+
+        self.assertEqual(
+            header,
+            "//  Author: Tangyixiao\n"
+            "//  Time: 2026-09-21 14:30:00\n"
+            "//  Problem: A+B\n"
+            "//  Contest: Codeforces Round\n"
+            "//  URL: https://codeforces.com/contest/1/problem/A\n"
+            "//  Memory Limit: 256 MB\n"
+            "//  Time Limit: 2000 ms\n"
+            "//  Interactive: false\n"
+            "//  Test Type: single\n"
+            "//  Batch ID: batch-1\n"
+            "//\n"
+            "//  Algorithm: \n"
+            "//  Complexity: O()\n"
+            "//  Note: \n"
+            "\n",
+        )
+
+    def test_format_cpp_uses_clang_format_file_style(self):
+        source = "int main(){return 0;}\n"
+
+        formatted = format_cpp(source, "example.cpp")
+
+        self.assertEqual(formatted, "int main() { return 0; }\n")
 
 
 if __name__ == "__main__":

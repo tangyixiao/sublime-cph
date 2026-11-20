@@ -2,12 +2,64 @@ import json
 import os
 import re
 import shutil
+import subprocess
+from datetime import datetime
 from urllib.parse import urlparse
 
 
 _UNSAFE_NAME = re.compile(r"[\\/:\x00-\x1f]")
 _FALLBACK_TEMPLATE = "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    return 0;\n}\n"
 _TEMPLATE_JS_UNSAFE_NAME = re.compile(r'[<>:"/\\|?*]')
+
+
+def _display_value(value):
+    if value is None:
+        return ""
+    if isinstance(value, bool):
+        return str(value).lower()
+    return str(value)
+
+
+def build_head_comments(data, now=None):
+    """Build the same problem header fields used by CP Editor."""
+    timestamp = now or datetime.now()
+    batch = data.get("batch") or {}
+    lines = [
+        "//  Author: Tangyixiao",
+        "//  Time: {}".format(timestamp.strftime("%Y-%m-%d %H:%M:%S")),
+        "//  Problem: {}".format(_display_value(data.get("name"))),
+        "//  Contest: {}".format(_display_value(data.get("group"))),
+        "//  URL: {}".format(_display_value(data.get("url"))),
+        "//  Memory Limit: {} MB".format(_display_value(data.get("memoryLimit"))),
+        "//  Time Limit: {} ms".format(_display_value(data.get("timeLimit"))),
+        "//  Interactive: {}".format(_display_value(data.get("interactive"))),
+        "//  Test Type: {}".format(_display_value(data.get("testType"))),
+        "//  Batch ID: {}".format(_display_value(batch.get("id"))),
+        "//",
+        "//  Algorithm: ",
+        "//  Complexity: O()",
+        "//  Note: ",
+        "",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def format_cpp(source, filename, program="clang-format"):
+    """Format C++ source with the nearest .clang-format configuration."""
+    filename = os.path.abspath(os.path.expanduser(str(filename)))
+    process = subprocess.Popen(
+        [program, "-style=file", "-assume-filename={}".format(os.path.basename(filename))],
+        cwd=os.path.dirname(filename),
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    formatted, error = process.communicate(str(source).encode("utf-8"))
+    if process.returncode != 0:
+        message = error.decode("utf-8", "replace").strip()
+        raise RuntimeError(message or "clang-format failed with exit code {}".format(process.returncode))
+    return formatted.decode("utf-8")
 
 
 def _is_host(hostname, expected):
@@ -124,6 +176,11 @@ def import_problem(data, code_root, template_path):
         else:
             with open(source, "w", encoding="utf-8") as solution_file:
                 solution_file.write(_FALLBACK_TEMPLATE)
+        with open(source, "r+", encoding="utf-8") as solution_file:
+            template_content = solution_file.read()
+            solution_file.seek(0)
+            solution_file.write(build_head_comments(data) + template_content)
+            solution_file.truncate()
 
     tests = data.get("tests") or []
     for index, test in enumerate(tests, 1):

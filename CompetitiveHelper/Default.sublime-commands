@@ -6,5 +6,19 @@
     {
         "caption": "Competitive Helper: Stop Listener",
         "command": "stop_cph_listener"
+    },
+    {
+        "caption": "Competitive Helper: Samples",
+        "command": "cph_sample_panel"
+    },
+    {
+        "caption": "Competitive Helper: Add Sample",
+        "command": "cph_sample_panel",
+        "args": {"action": "add"}
+    },
+    {
+        "caption": "Competitive Helper: Import Sample Files",
+        "command": "cph_sample_panel",
+        "args": {"action": "import"}
     }
 ]

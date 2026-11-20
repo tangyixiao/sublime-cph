@@ -104,6 +104,25 @@ class StopCphListenerCommand(sublime_plugin.ApplicationCommand):
         print("CompetitiveHelper: listener stopped")
 
 
+class FormatCphFileCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        filename = self.view.file_name()
+        if not filename:
+            sublime.error_message("CompetitiveHelper: save the file before formatting")
+            return
+        program = _settings().get("clang_format_program", "clang-format")
+        try:
+            formatted = competitive_helper_core.format_cpp(
+                self.view.substr(sublime.Region(0, self.view.size())),
+                filename,
+                program=program,
+            )
+        except (OSError, RuntimeError) as error:
+            sublime.error_message("CompetitiveHelper clang-format: {}".format(error))
+            return
+        self.view.replace(edit, sublime.Region(0, self.view.size()), formatted)
+
+
 def plugin_loaded():
     if _settings().get("auto_start", True):
         sublime.set_timeout(lambda: _start_listener(show_error=False), 0)

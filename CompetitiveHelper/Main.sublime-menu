@@ -3,12 +3,31 @@
         "caption": "Competitive Helper",
         "children": [
             {
+                "caption": "样例面板",
+                "command": "cph_sample_panel"
+            },
+            {
+                "caption": "新建样例",
+                "command": "cph_sample_panel",
+                "args": {"action": "add"}
+            },
+            {
+                "caption": "导入样例文件对",
+                "command": "cph_sample_panel",
+                "args": {"action": "import"}
+            },
+            {"caption": "-"},
+            {
                 "caption": "Start Listener",
                 "command": "start_cph_listener"
             },
             {
                 "caption": "Stop Listener",
                 "command": "stop_cph_listener"
+            },
+            {
+                "caption": "Format with clang-format",
+                "command": "format_cph_file"
             }
         ]
     }

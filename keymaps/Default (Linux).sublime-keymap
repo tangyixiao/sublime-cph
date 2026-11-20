@@ -19,5 +19,12 @@
             "build_system": "Packages/User/CPH C++.sublime-build",
             "variant": "Test Samples"
         }
+    },
+    {
+        "keys": ["alt+shift+f"],
+        "command": "format_cph_file",
+        "context": [
+            {"key": "selector", "operator": "equal", "operand": "source.c++"}
+        ]
     }
 ]
